@@ -59,11 +59,17 @@ body[data-tab=dash] .flt{display:flex}
 .db{position:relative;min-width:110px}.db i{position:absolute;left:0;top:1px;bottom:1px;background:var(--ac2);border-radius:4px}.db span{position:relative;padding-left:4px}
 .mk{display:inline-block;width:10px;height:10px;margin-right:6px}.lgd{display:flex;gap:14px;font-size:12px;color:var(--mu);margin-bottom:4px}
 .tw table{min-width:560px}th{text-transform:none}tr.tot td{font-weight:700;border-top:2px solid var(--bd)}
+
+.flt2{display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.09);border-radius:12px;padding:12px}.flt2 h4{margin:0;font-size:12px;letter-spacing:.6px;text-transform:uppercase;opacity:.8}
+.flt2 label{font-size:11px;opacity:.9;display:flex;flex-direction:column;gap:4px}.flt2 select{background:#0e3a85;color:#fff;border:1px solid rgba(255,255,255,.22);width:100%}
+.bdg{background:#ef4444;color:#fff;border-radius:99px;padding:0 7px;font-size:11px;margin-left:8px}.bdg:empty{display:none}
+.ir{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid var(--bd)}.ir:last-child{border:0}.ir .btn{padding:4px 10px;font-size:12px}
+.tchip{border:1px solid var(--bd);border-radius:99px;padding:4px 11px;cursor:pointer;font-size:12px;background:var(--card)}.tchip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 </style></head><body data-tab="dash"><div class="app">
 <aside class="side"><div class="brand"><div class="logo">M</div><div><b>MET Sales</b><span>Quotation Dashboard</span></div></div>
-<nav><button data-t="dash" class="on">▦ &nbsp;Tổng quan</button><button data-t="list">☰ &nbsp;Báo giá</button><button data-t="rep">▤ &nbsp;Báo cáo</button></nav>
+<nav><button data-t="dash" class="on">▦ &nbsp;Tổng quan</button><button data-t="list">☰ &nbsp;Báo giá</button><button data-t="rep">▤ &nbsp;Báo cáo</button><button data-t="chk">⚠ &nbsp;Kiểm tra &amp; nhắc việc<span class="bdg" id="chkb"></span></button></nav>
+<div class="flt2"><h4>Sale</h4><label>Sale phụ trách<select id="gsc"><option value="">Tất cả sale</option></select></label></div>
 <div class="flt"><h4>Bộ lọc</h4>
-<label>Phạm vi<select id="gsc"><option value="mine">Của tôi</option><option value="all">Toàn team</option></select></label>
 <label>Tuyến<select id="gr"><option value="">Tất cả</option><option value="M">M – Sing / Mã</option><option value="B">B – Bali / Indo</option><option value="A">A – Philippines</option><option value="O">O – Nước khác</option></select></label>
 <label>Công ty<select id="gc"><option value="">Tất cả</option></select></label>
 <label>Trạng thái<select id="gst"><option value="">Tất cả</option><option value="draft">Đang soạn</option><option value="waiting">Chờ phản hồi</option><option value="negotiating">Đàm phán</option><option value="won">Chốt</option><option value="lost">Mất</option><option value="over">Quá hạn</option></select></label></div></aside>
@@ -73,10 +79,10 @@ body[data-tab=dash] .flt{display:flex}
 <input type="file" id="file" accept=".csv" class="hide"></div>
 <main>
 <div id="msg" class="note hide"></div>
-<section id="dash"></section><section id="list" class="hide"></section><section id="rep" class="hide"></section>
+<section id="dash"></section><section id="list" class="hide"></section><section id="rep" class="hide"></section><section id="chk" class="hide"></section>
 </main></div></div>
 <dialog id="dlg"><div class="f" id="form">
-<label>Tuyến<select id="mkt"><option value="M">M – Singapore / Malaysia</option><option value="B">B – Bali / Indonesia</option><option value="A">A – Philippines</option><option value="O">O – Các nước khác</option></select></label><label>Mã báo giá<input id="qcode" placeholder="vd M260214"></label><label>Mã chương trình<input id="pkg" list="dl-pkg" placeholder="số ngày + điểm đến, vd 5SM, 4BA"></label><label>Mã đại lý<input id="agent" list="dl-agent" placeholder="vd VNIAS"></label><div class="w s" id="qhint"></div><label>Mã booking (tự ghép)<input id="code"></label><label>Người liên hệ / khách hàng<input id="client"></label><label class="w">Tên công ty / doanh nghiệp<input id="company" list="dl-comp"></label><datalist id="dl-pkg"></datalist><datalist id="dl-agent"></datalist><datalist id="dl-comp"></datalist>
+<label>Tuyến<select id="mkt"><option value="M">M – Singapore / Malaysia</option><option value="B">B – Bali / Indonesia</option><option value="A">A – Philippines</option><option value="O">O – Các nước khác</option></select></label><label>Mã báo giá<input id="qcode" placeholder="vd M260214"></label><label>Mã chương trình<input id="pkg" list="dl-pkg" placeholder="số ngày + điểm đến, vd 5SM, 4BA"></label><label>Mã đại lý<input id="agent" list="dl-agent" placeholder="vd VNIAS"></label><div class="w s" id="qhint"></div><label>Mã booking (tự ghép)<input id="code"></label><label>Người liên hệ / khách hàng<input id="client"></label><label class="w">Tên công ty / doanh nghiệp<input id="company" list="dl-comp"></label><label>Sale phụ trách<input id="sale" list="dl-sale" placeholder="vd Alain"></label><datalist id="dl-sale"></datalist><datalist id="dl-pkg"></datalist><datalist id="dl-agent"></datalist><datalist id="dl-comp"></datalist>
 <label>Điểm đến / sản phẩm<input id="dest"></label><label>Số pax<input id="pax" type="number" min="0"></label>
 <label>Ngày đi<input id="trip" type="date"></label><label>Ngày về<input id="ret" type="date"></label><label>Ngày nhận yêu cầu<input id="enq" type="date"></label><label>Ngày gửi báo giá<input id="sent" type="date"></label>
 <label>Hạn báo giá<input id="valid" type="date"></label><label>Trạng thái<select id="status"></select></label>
@@ -99,7 +105,8 @@ function eff(q){const s=q.status==="sent"?"waiting":q.status;return OPEN.include
 function statusSel(q){const e=eff(q);return `<select class="b st ${e}" data-sid="${q.id}" onclick="event.stopPropagation()">${e==="over"?'<option value="over" selected disabled>Quá hạn</option>':""}${Object.entries(ST).filter(([k])=>k!=="sent").map(([k,v])=>`<option value="${k}"${k===e?" selected":""}>${v}</option>`).join("")}</select>`}
 function lbl(q){const e=eff(q);return e==="over"?"Quá hạn":ST[e]}
 function badge(q){return `<span class="b ${eff(q)}">${lbl(q)}</span>`}
-function mine(){return scope==="all"||!me?Q:Q.filter(q=>q.owner===me)}
+let saleSel="";
+function mine(){return saleSel?Q.filter(q=>(q.sale||"")===saleSel):Q}
 function rng(p,ref=new Date()){const y=ref.getFullYear(),m=ref.getMonth(),d=ref.getDate();
  if(p==="day")return[new Date(y,m,d),new Date(y,m,d+1)];
  if(p==="week"){const w=(ref.getDay()+6)%7;return[new Date(y,m,d-w),new Date(y,m,d-w+7)]}
@@ -115,13 +122,75 @@ function stats(a){const won=a.filter(q=>q.status==="won"),lost=a.filter(q=>q.sta
  return{n:a.length,won:won.length,lost:lost.length,open:a.filter(q=>OPEN.includes(q.status)).length,
  rate:dec?Math.round(won.length/dec*100):0,rev:won.reduce((s,q)=>s+(+q.value||0),0),pf:won.reduce((s,q)=>s+(+q.profit||0),0),
  pipe:a.filter(q=>OPEN.includes(q.status)).reduce((s,q)=>s+(+q.value||0),0)}}
+const ICO={e:"🔴",w:"🟠",i:"🔵"};let ISS=[];
+const STOPW=new Set(["cong","ty","tnhh","co","ltd","jsc","cp","company","limited","du","lich","travel","travels","tour","tours","group","tm","dv","mtv"]);
+const ckey=n=>{const w=nz(n).replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(x=>x&&!STOPW.has(x));return w.join(" ")||nz(n)};
+let _kt=null;const kta=()=>_kt||(_kt=(()=>{const m={};AGENTS.forEach(([c,n])=>{const k=ckey(n);if(!m[k])m[k]=n.trim().toUpperCase()});return m})());
+function canonCo(name,agent){const n=String(name||"").replace(/\s+/g," ").trim(),a=String(agent||"").toUpperCase();
+ if(a){const ns=AGENTS.filter(x=>x[0]===a).map(x=>x[1].trim());if(ns.length){const k=ckey(n);return(ns.find(x=>ckey(x)===k)||ns[0]).toUpperCase()}}
+ if(!n)return n;const k=ckey(n);if(kta()[k])return kta()[k];
+ const c={};Q.forEach(q=>{if(q.company&&ckey(q.company)===k)c[q.company]=(c[q.company]||0)+1});const e=Object.entries(c).sort((x,y)=>y[1]-x[1]||y[0].length-x[0].length);return e.length?e[0][0]:n}
+function canonSale(n){n=String(n||"").replace(/\s+/g," ").trim();if(!n)return"";const ex=Q.map(q=>q.sale).filter(Boolean).find(x=>nz(x)===nz(n));return ex||n.toLowerCase().replace(/(^|\s)\p{L}/gu,m=>m.toUpperCase())}
+function defaultSale(){let v="";try{v=localStorage.getItem("ms_sale")||""}catch(e){}return v||"Alain"}
+function setDefaultSale(v){try{localStorage.setItem("ms_sale",v)}catch(e){}}
+function refreshSales(){const s=$("gsc");if(!s)return;const names=[...new Set(Q.map(q=>q.sale).filter(Boolean))].sort();
+ s.innerHTML='<option value="">Tất cả sale</option>'+names.map(n=>`<option>${esc(n)}</option>`).join("");s.value=names.includes(saleSel)?saleSel:"";saleSel=s.value;
+ $("dl-sale").innerHTML=names.map(n=>`<option value="${esc(n)}">`).join("")}
+function splitName(fname){const b=String(fname||"").replace(/\.pdf$/i,"").trim(),m=/^([A-Za-z]\d{6}(?:-[A-Za-z0-9]+){0,2})(?:[\s_]+(.*))?$/.exec(b);return m?{code:m[1].toUpperCase(),co:String(m[2]||"").replace(/_/g," ").replace(/\(\d+\)/g,"").replace(/\s+/g," ").trim()}:{code:"",co:""}}
+function guessCodes(q){let c=q.code||"";if(!/^[A-Za-z]\d{6}/.test(c)){const m=/PDF:\s*([^|]+?\.pdf)/i.exec(q.note||"");if(m)c=splitName(m[1]).code}const d=deriveCodes(c);return{code:c,...d}}
+function expectLetter(p){p=String(p||"").toUpperCase();if(!p)return"";if(/(BA|IN|JAK|YOK)$/.test(p))return"B";if(/PHI$/.test(p))return"A";if(/^\d+(S|M|SM|MS|SBM|MBS|S\dM|M\dS|S\dBM|MB\dS)$/.test(p))return"M";if(/(THA|CHI|KOR|JP|LD|DMK|CAN|MDV|CD)$/.test(p))return"O";return""}
+function issues(arr){const out=[],cnt={};Q.forEach(q=>{const c=qOf(q);if(c)cnt[c]=(cnt[c]||0)+1});
+ arr.forEach(q=>{const A=(t,sev,msg,act,fx,p)=>out.push({q,t,sev,msg,act,fx,p:p??5,k:q.id+"|"+t});
+  const qc=qOf(q),op=OPEN.includes(q.status),dv=days(q.valid),df=days(q.fu),dt=days(q.trip),ds=q.status==="draft";
+  if(!qc){const g=guessCodes(q);A("Thiếu mã báo giá","e","Chưa có mã báo giá","Điền mã báo giá"+(g.qcode?" ("+g.qcode+")":""),g.qcode?{label:"Điền "+g.qcode,patch:{qcode:g.qcode,code:q.code||g.code,pkg:q.pkg||g.pkg,agent:q.agent||g.agent}}:null,1)}
+  else{if(!/^[MBAO]\d{6}$/.test(qc)||+qc.slice(3,5)<1||+qc.slice(3,5)>12)A("Mã báo giá sai định dạng","e","Mã báo giá '"+qc+"' sai định dạng","Dạng đúng: M/B/A/O + YYMM + số thứ tự, vd M260214",null,1);
+   if(cnt[qc]>1)A("Trùng mã báo giá","w","Mã "+qc+" đang dùng cho "+cnt[qc]+" báo giá","Đối chiếu số thứ tự trong file Quotation Code",null,4);
+   if(q.code&&!q.code.toUpperCase().startsWith(qc))A("Mã booking không khớp","w","Mã booking "+q.code+" không bắt đầu bằng mã báo giá "+qc,"Sửa mã booking hoặc mã báo giá cho khớp",null,3);
+   const ex=expectLetter(q.pkg);if(ex&&qc[0]!==ex)A("Tuyến không khớp chương trình","w","Chữ tuyến "+qc[0]+" nhưng chương trình "+q.pkg+" thường thuộc tuyến "+ex,"Kiểm tra lại mã báo giá hoặc mã chương trình",null,3)}
+  if(!q.sale)A("Chưa gán sale","e","Chưa có sale phụ trách","Gán sale",{label:"Gán "+defaultSale(),patch:{sale:defaultSale()}},2);
+  if(!q.company&&!q.client)A("Thiếu thông tin khách","w","Thiếu tên công ty và khách hàng","Bổ sung thông tin khách",null,3);
+  if(q.company){const nm=AGENTS.filter(x=>x[0]===q.agent).map(x=>x[1]);const cc=canonCo(q.company,q.agent);
+   if(q.agent&&nm.length&&!nm.some(x=>ckey(x)===ckey(q.company)))A("Mã đại lý không khớp công ty","w","Mã đại lý "+q.agent+" thuộc "+nm[0].toUpperCase()+", đang ghi '"+q.company+"'","Kiểm tra lại mã đại lý hoặc tên công ty",{label:"Đổi tên thành "+cc,patch:{company:cc}},3);
+   else if(cc&&cc!==q.company)A("Tên công ty chưa thống nhất","w","Tên '"+q.company+"' nên ghi là '"+cc+"'","Chuẩn hóa tên công ty",{label:"Đổi thành "+cc,patch:{company:cc}},4)}
+  if(!q.dest)A("Thiếu điểm đến","i","Chưa có điểm đến/chương trình","Bổ sung điểm đến",null,6);
+  const hp=q.tiers&&q.tiers.length;
+  if(!ds&&!hp&&!(+q.value))A("Chưa có bảng giá","w","Báo giá chưa có bảng giá hoặc giá trị","Nhập bảng giá hoặc import PDF báo giá",null,4);
+  if(hp){const bad=[];q.tiers.forEach((t,i)=>{if(!t.Adult)bad.push("Mức "+(i+1)+" thiếu giá Adult");else{const d=(k,r)=>t[k]&&Math.abs(t[k]-Math.round(t.Adult*r))>3;if(d("Single",.75))bad.push("Mức "+(i+1)+": Single "+t.Single+" ≠ 75%");if(d("Cwb",1))bad.push("Mức "+(i+1)+": Children With Bed "+t.Cwb+" ≠ 100%");if(d("Cnb",.75))bad.push("Mức "+(i+1)+": Children No Bed "+t.Cnb+" ≠ 75%")}});
+   if(bad.length)A("Giá lệch quy tắc","i",bad.slice(0,3).join("; "),"Kiểm tra lại nếu không phải ngoại lệ",null,7)}
+  if(q.trip&&q.ret&&q.ret<q.trip)A("Ngày về trước ngày đi","e","Ngày về "+q.ret+" trước ngày đi "+q.trip,"Sửa lại ngày đi/về",null,1);
+  if(q.enq&&q.valid&&q.valid<q.enq)A("Hạn trước ngày nhận yêu cầu","e","Hạn báo giá "+q.valid+" trước ngày nhận yêu cầu "+q.enq,"Sửa lại hạn báo giá",null,1);
+  if(q.enq&&q.trip&&q.trip<q.enq)A("Ngày đi trước ngày nhận yêu cầu","w","Ngày đi "+q.trip+" sớm hơn ngày nhận yêu cầu "+q.enq,"Kiểm tra lại ngày đi (có thể nhầm ngày/tháng)",null,3);
+  if(op&&dv!==null&&dv<0)A("Báo giá hết hạn","w","Đã hết hạn "+(-dv)+" ngày mà chưa Chốt/Mất","Liên hệ khách để follow-up, gia hạn hoặc đóng báo giá",null,0);
+  if(op&&dv!==null&&dv>=0&&dv<=3)A("Sắp hết hạn","w","Còn "+dv+" ngày là hết hạn báo giá","Liên hệ khách xác nhận trước hạn",null,0);
+  if(op&&df!==null&&df<=0)A("Đến hạn follow-up","w","Ngày follow-up "+(df===0?"là hôm nay":"đã qua "+(-df)+" ngày"),"Liên hệ khách hôm nay",null,0);
+  if(op&&dt!==null&&dt<0)A("Đã qua ngày đi","e","Ngày đi "+q.trip+" đã qua nhưng chưa Chốt/Mất","Cập nhật trạng thái",null,1);
+  if(op&&!q.valid&&!q.fu)A("Thiếu hạn & follow-up","i","Chưa có hạn báo giá và ngày follow-up","Đặt hạn báo giá để nhận nhắc việc",null,6);
+  if(ds){const base=q.enq||q.created,ag=base?-days(base):0;if(ag>=7)A("Đang soạn quá lâu","w","Đang soạn "+ag+" ngày chưa gửi","Hoàn thiện & gửi khách, hoặc chuyển sang Mất",null,2)}
+  if(q.status==="won"){if(!q.won)A("Đã chốt thiếu ngày chốt","w","Chưa có ngày chốt (chuyển đổi)","Nhập ngày chốt để doanh thu vào đúng tháng",null,2);
+   if(!+q.value)A("Đã chốt chưa có giá trị","e","Đã chốt nhưng giá trị bằng 0","Nhập số lượng khách để tính doanh thu",null,1);
+   else if(!+q.profit)A("Đã chốt chưa có lợi nhuận","i","Chưa nhập lợi nhuận","Nhập lợi nhuận",null,6)}
+  if(q.status==="lost"&&!q.why)A("Mất chưa ghi lý do","i","Báo giá Mất chưa ghi lý do","Ghi lý do để rút kinh nghiệm",null,7)});
+ const so={e:0,w:1,i:2};return out.sort((a,b)=>so[a.sev]-so[b.sev]||a.p-b.p)}
+async function applyFix(x){const q=Q.find(y=>y.id===x.q.id);if(!q)return;const{id,...o}=q;Object.assign(o,x.fx.patch);o.updated=today();await put(id,o)}
+let chkSev="",chkType="";
+function chkView(){const el=$("chk");if(!el)return;const base=ISS.filter(x=>!chkSev||x.sev===chkSev),L=base.filter(x=>!chkType||x.t===chkType),ty={};
+ base.forEach(x=>{(ty[x.t]=ty[x.t]||{n:0,sev:x.sev}).n++});
+ const chips=Object.entries(ty).sort((a,b)=>"ewi".indexOf(a[1].sev)-"ewi".indexOf(b[1].sev)||b[1].n-a[1].n).map(([k,v])=>`<span class="tchip ${chkType===k?"on":""}" data-ty="${esc(k)}">${ICO[v.sev]} ${esc(k)} (${v.n})</span>`).join(""),fx=L.filter(x=>x.fx);
+ el.innerHTML=`<div class="tb"><select id="csev"><option value="">Mọi mức độ</option><option value="e">🔴 Lỗi</option><option value="w">🟠 Cần chú ý</option><option value="i">🔵 Gợi ý</option></select>${fx.length?`<button class="btn pri" id="cfix">⚡ Sửa nhanh ${fx.length} mục</button>`:""}</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${chips}</div>
+ <div class="card">${L.length?L.slice(0,150).map(x=>`<div class="ir"><span>${ICO[x.sev]}</span><div><b>${esc(qOf(x.q)||"(chưa có mã)")}</b> · ${esc(x.q.company||x.q.client||"")} <span class="s">· ${esc(x.q.sale||"chưa gán sale")}</span><div>${esc(x.msg)}</div><div class="s">→ ${esc(x.act)}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${x.fx?`<button class="btn pri" data-fix="${esc(x.k)}">${esc(x.fx.label)}</button>`:""}<button class="btn" data-open="${x.q.id}">Mở</button></div></div>`).join(""):'<p class="s">Không có mục nào 🎉</p>'}${L.length>150?`<p class="s">Hiển thị 150/${L.length} mục đầu.</p>`:""}</div>`;
+ $("csev").value=chkSev}
+$("chk").addEventListener("click",async e=>{const t=e.target.closest("[data-ty]");if(t){chkType=chkType===t.dataset.ty?"":t.dataset.ty;chkView();return}
+ const o=e.target.closest("[data-open]");if(o){openForm(o.dataset.open);return}
+ const f=e.target.closest("[data-fix]");if(f){const x=ISS.find(y=>y.k===f.dataset.fix);if(x)await applyFix(x);return}
+ if(e.target.id==="cfix"){const L=ISS.filter(x=>(!chkSev||x.sev===chkSev)&&(!chkType||x.t===chkType)&&x.fx);if(!confirm("Áp dụng sửa nhanh cho "+L.length+" mục?"))return;for(const x of L)await applyFix(x);msg("Đã sửa nhanh "+L.length+" mục.")}});
+$("chk").addEventListener("change",e=>{if(e.target.id==="csev"){chkSev=e.target.value;chkType="";chkView()}});
 const CL={draft:'#94a3b8',waiting:'#5aa9ff',negotiating:'#1d63e6',won:'#10b981',lost:'#ef4444',over:'#f59e0b'};
 const SL=[['draft','Đang soạn'],['waiting','Chờ phản hồi'],['negotiating','Đàm phán'],['won','Chốt'],['lost','Mất'],['over','Quá hạn']];
 const fmK=n=>{const a=Math.abs(n);return(n<0?'-':'')+'$'+(a>=1e6?(a/1e6).toFixed(2).replace(/\.?0+$/,'')+'M':a>=1e4?(a/1e3).toFixed(1).replace(/\.0$/,'')+'K':fm(a))};
 const addDays=(iso,n)=>{const d=new Date(iso+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
 const dl=(c,p)=>p?`<span class="chip ${c>=p?'up':'dn'}">${c>=p?'▲':'▼'} ${Math.abs(Math.round((c-p)/p*100))}%</span><span class="s"> so với kỳ trước</span>`:'<span class="s">Chưa có kỳ trước</span>';
 function monthsBetween(a,b){const r=[];let y=+a.slice(0,4),m=+a.slice(5,7);const ey=+b.slice(0,4),em=+b.slice(5,7);while((y<ey||(y===ey&&m<=em))&&r.length<120){r.push(y+'-'+String(m).padStart(2,'0'));if(++m>12){m=1;y++}}return r.slice(-12)}
-function dset(f,d1,d2){const base=mine().filter(q=>(!f.r||qOf(q)[0]===f.r)&&(!f.c||(q.company||q.client)===f.c)&&(!f.s||eff(q)===f.s));
+function dset(f,d1,d2){const base=Q.filter(q=>(!f.sale||(f.sale==="__none"?!q.sale:(q.sale||"")===f.sale))&&(!f.r||qOf(q)[0]===f.r)&&(!f.c||(q.company||q.client)===f.c)&&(!f.s||eff(q)===f.s));
  const ir=d=>d&&(!d1||d>=d1)&&(!d2||d<=d2),Q1=base.filter(q=>ir(qd(q))),W=base.filter(q=>q.status==="won"&&ir(rd(q))),lost=Q1.filter(q=>q.status==="lost").length,sm=(a,k)=>a.reduce((s,q)=>s+(+q[k]||0),0);
  return{base,Q1,W,n:Q1.length,won:W.length,lost,rate:W.length+lost?Math.round(W.length/(W.length+lost)*100):0,rev:sm(W,"value"),pf:sm(W,"profit"),wait:Q1.filter(q=>["waiting","negotiating"].includes(eff(q)))}}
 function donut(it){const T=it.reduce((s,x)=>s+x[1],0),R=62,C=2*Math.PI*R;let off=0;
@@ -134,10 +203,10 @@ function combo(ms){const W=640,H=250,L=34,R=54,T=14,B=28,iw=W-L-R,ih=H-T-B,bw=iw
  return `<div class="lgd"><span><span class="sw" style="background:#9cc4ff;display:inline-block"></span> Số báo giá (trái)</span><span><span class="sw" style="background:#1d63e6;display:inline-block;border-radius:50%"></span> Doanh thu (phải)</span></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${g}${bars}<path d="${line}" fill="none" stroke="#1d63e6" stroke-width="2.5"/>${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#1d63e6"><title>${p[2].k}: $${fm(p[2].rev)}</title></circle>`).join("")}</svg>`}
 const hbar=(rows)=>{const mx=Math.max(1,...rows.map(r=>r[1]));return rows.map(([l,v,c,t,set])=>`<div class="hb" ${set?`data-set="${set}"`:""}><span title="${esc(l)}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l)}</span><div class="tk"><i style="width:${v/mx*100}%;--cl:${c}"></i></div><span>${t}</span></div>`).join("")};
 function dash(){
- if(!$("gsc"))return;$("gsc").parentElement.style.display=mgr?"":"none";
+ if(!$("gsc"))return;
  const cur=$("gc").value,cos=[...new Set(mine().map(q=>q.company||q.client).filter(Boolean))].sort();
  $("gc").innerHTML='<option value="">Tất cả</option>'+cos.map(c=>`<option>${esc(c)}</option>`).join("");$("gc").value=cos.includes(cur)?cur:"";
- const f={r:$("gr").value,c:$("gc").value,s:$("gst").value};let d1=$("gd1").value,d2=$("gd2").value;
+ const f={r:$("gr").value,c:$("gc").value,s:$("gst").value,sale:$("gsc").value};let d1=$("gd1").value,d2=$("gd2").value;
  const all=mine().map(qd).filter(Boolean).sort();if(!d1&&all.length)d1=all[0];if(!d2)d2=today();
  const D=dset(f,d1,d2),len=Math.round((new Date(d2)-new Date(d1))/864e5)+1,P=$("gd1").value&&$("gd2").value?dset(f,addDays(d1,-len),addDays(d1,-1)):{n:0,rev:0,pf:0,rate:0,wait:[]};
  const sm=(a,k)=>a.reduce((s,q)=>s+(+q[k]||0),0),Q=D.Q1;
@@ -155,18 +224,24 @@ function dash(){
  const alh=al.length?al.map(x=>`<div class="al"><span>${esc(qOf(x.q))} · ${esc(x.q.company||x.q.client)}</span><span class="${x.d!==null&&x.d<0?"red":"amb"}">${x.d===null?"Follow-up":x.d<0?"Quá "+(-x.d)+" ngày":x.d===0?"Hôm nay":"Còn "+x.d+" ngày"}</span></div>`).join(""):'<p class="s">Không có báo giá nào cần xử lý 🎉</p>';
  const mr=Math.max(1,...ms.map(m=>m.rev)),mkr=r=>r===null?"–":(r>=30?'<span class="mk" style="background:#10b981;border-radius:50%"></span>':r>=15?'<span class="mk" style="background:#f59e0b;clip-path:polygon(50% 0,100% 100%,0 100%)"></span>':'<span class="mk" style="background:#ef4444;transform:rotate(45deg) scale(.8)"></span>')+(r===null?"":r+"%");
  const tb=ms.map(m=>`<tr><td>${m.k.slice(5)}/${m.k.slice(0,4)}</td><td class="num">${m.n}</td><td class="num">${m.won}</td><td class="num">${mkr(m.rate)}</td><td><div class="db"><i style="width:${m.rev/mr*100}%"></i><span>$${fm(m.rev)}</span></div></td><td class="num">$${fm(m.pf)}</td></tr>`).join("")+`<tr class="tot"><td>Tổng</td><td class="num">${D.n}</td><td class="num">${D.won}</td><td class="num">${D.won+D.lost?D.rate+"%":"–"}</td><td>$${fm(D.rev)}</td><td class="num">$${fm(D.pf)}</td></tr>`;
+ const sl=[...new Set(Q.map(q=>q.sale).filter(Boolean))].sort(),srow=sl.map(n=>[n,dset({...f,sale:n},d1,d2)]);if(Q.some(q=>!q.sale))srow.push(["(Chưa gán)",dset({...f,sale:"__none"},d1,d2)]);
+ const stot=dset({...f,sale:""},d1,d2),smx=Math.max(1,...srow.map(r=>r[1].rev)),srw=(n,x,t)=>`<tr class="${t?"tot":"r"}" ${!t&&n!=="(Chưa gán)"?`data-set="gsc:${esc(n)}"`:""}><td><b>${esc(n)}</b></td><td class="num">${x.n}</td><td class="num">${x.won}</td><td class="num">${x.won+x.lost?x.rate+"%":"–"}</td><td><div class="db"><i style="width:${t?0:x.rev/smx*100}%"></i><span>$${fm(x.rev)}</span></div></td><td class="num">$${fm(x.pf)}</td></tr>`;
+ const salec=`<table><tr><th>Sale</th><th class="num">Báo giá</th><th class="num">Chốt</th><th class="num">Tỷ lệ</th><th>Doanh thu</th><th class="num">Lợi nhuận</th></tr>${srow.map(([n,x])=>srw(n,x,0)).join("")}${srw("Tổng tất cả sale",stot,1)}</table><p class="s">Bấm vào một sale để xem riêng.</p>`;
+ const cn={e:ISS.filter(x=>x.sev==="e").length,w:ISS.filter(x=>x.sev==="w").length,i:ISS.filter(x=>x.sev==="i").length},t7=ISS.filter(x=>x.sev!=="i").slice(0,7);
+ const actc=`<div class="lgd"><span>🔴 ${cn.e} lỗi</span><span>🟠 ${cn.w} cần chú ý</span><span>🔵 ${cn.i} gợi ý</span></div>`+(t7.length?t7.map(x=>`<div class="ir"><span>${ICO[x.sev]}</span><div><b>${esc(qOf(x.q)||x.q.company||"?")}</b> · ${esc(x.q.company||x.q.client||"")}<div class="s">${esc(x.msg)} → ${esc(x.act)}</div></div><button class="btn" data-open="${x.q.id}">Mở</button></div>`).join(""):'<p class="s">Không có việc nào cần xử lý 🎉</p>')+`<p><button class="btn" data-go="chk">Xem tất cả ${ISS.length} mục →</button></p>`;
  $("dash").innerHTML=`<div class="grid5">${kpis}</div><div class="dg">
  <div class="card c3"><h3 class="ct">Báo giá theo trạng thái</h3>${don}</div>
  <div class="card c6"><h3 class="ct">Số báo giá & doanh thu theo tháng</h3>${combo(ms)}</div>
  <div class="card c3"><h3 class="ct">Theo tuyến</h3>${rt}<p class="s">Bấm vào một tuyến để lọc.</p></div>
- <div class="card c4"><h3 class="ct">Top công ty theo doanh thu</h3>${tp}</div>
- <div class="card c4"><h3 class="ct">Hạn của báo giá đang mở</h3>${dd}</div>
- <div class="card c4"><h3 class="ct">⏰ Cần xử lý (≤ 7 ngày)</h3>${alh}</div>
+ <div class="card c6 tw"><h3 class="ct">So sánh theo sale</h3>${salec}</div>
+ <div class="card c6"><h3 class="ct">🔔 Đề xuất hành động</h3>${actc}</div>
+ <div class="card c6"><h3 class="ct">Top công ty theo doanh thu</h3>${tp}</div>
+ <div class="card c6"><h3 class="ct">Hạn của báo giá đang mở</h3>${dd}</div>
  <div class="card c12 tw"><h3 class="ct">Hiệu suất theo tháng</h3><table><tr><th>Tháng</th><th class="num">Báo giá</th><th class="num">Chốt</th><th class="num">Tỷ lệ chốt</th><th>Doanh thu</th><th class="num">Lợi nhuận</th></tr>${tb}</table><p class="s">Tỷ lệ chốt: ● từ 30% · ▲ 15–29% · ◆ dưới 15%. Doanh thu tính theo ngày đã chọn ở tab Báo cáo (mặc định: ngày chốt).</p></div></div>`;
 }
-$("dash").addEventListener("click",e=>{const t=e.target.closest("[data-set]");if(!t)return;const[k,v]=t.dataset.set.split(":");const el=$(k);if(el){el.value=v;if(k==="gc"&&el.value!==v)return;dash()}});
+$("dash").addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o){openForm(o.dataset.open);return}const g=e.target.closest("[data-go]");if(g){document.querySelector('nav button[data-t="'+g.dataset.go+'"]').click();return}const t=e.target.closest("[data-set]");if(!t)return;const[k,v]=t.dataset.set.split(":");const el=$(k);if(el){el.value=v;if(k==="gsc"){saleSel=v;render();return}if(k==="gc"&&el.value!==v)return;dash()}});
 ["gr","gc","gst"].forEach(i=>$(i).addEventListener("change",dash));
-$("gsc").addEventListener("change",()=>{scope=$("gsc").value;render()});
+$("gsc").addEventListener("change",()=>{saleSel=$("gsc").value;render()});
 $("gdp").addEventListener("change",()=>{const v=$("gdp").value;let a="",b="";if(v==="last12"){const t=new Date();b=today();a=new Date(Date.UTC(t.getFullYear(),t.getMonth()-11,1)).toISOString().slice(0,10)}else if(v!=="all"&&v!=="custom")[a,b]=presetRange(v);if(v!=="custom"){$("gd1").value=a;$("gd2").value=b}dash()});
 ["gd1","gd2"].forEach(i=>$(i).addEventListener("input",()=>{$("gdp").value="custom";dash()}));
 $("gdp").value="year";[$("gd1").value,$("gd2").value]=presetRange("year");
@@ -194,12 +269,12 @@ function list(){if(!$("ltab"))listInit();
  rows.sort((a,b)=>{const x=k(a),y=k(b);if(gb==="route")return x.l-y.l||y.ym.localeCompare(x.ym)||x.n.localeCompare(y.n);return y.ym.localeCompare(x.ym)||x.l-y.l||x.n.localeCompare(y.n)});
  const RN={M:"M – Singapore / Malaysia",B:"B – Bali / Indonesia",A:"A – Philippines",O:"O – Nước khác"},ml=ym=>/^\d{4}$/.test(ym)&&ym!=="0000"?`Tháng ${ym.slice(2)}/20${ym.slice(0,2)}`:"Chưa có mã báo giá";
  const G=new Map();rows.forEach(q=>{const x=k(q),key=gb==="none"?"":gb==="route"?x.c.slice(0,5):x.ym;if(!G.has(key))G.set(key,[]);G.get(key).push(q)});
- const row=q=>{const d=days(q.valid);return `<tr class="r" data-id="${q.id}"><td><b>${esc(qOf(q))}</b></td><td>${statusSel(q)}</td><td>${esc(q.company)}</td><td>${esc(q.client)}</td><td>${esc(q.dest)}</td><td class="num">${esc(q.pax)}</td><td>${esc(q.enq)}</td><td>${esc(q.trip)}${q.ret?" → "+esc(q.ret):""}</td><td class="${d!==null&&d<0?"red":d!==null&&d<=3?"amb":""}">${esc(q.valid)}</td><td class="num">${fm(q.value)}</td><td>${esc(q.code)}</td></tr>`};
+ const row=q=>{const d=days(q.valid);return `<tr class="r" data-id="${q.id}"><td><b>${esc(qOf(q))}</b></td><td>${statusSel(q)}</td><td>${esc(q.company)}</td><td>${esc(q.sale)}</td><td>${esc(q.client)}</td><td>${esc(q.dest)}</td><td class="num">${esc(q.pax)}</td><td>${esc(q.enq)}</td><td>${esc(q.trip)}${q.ret?" → "+esc(q.ret):""}</td><td class="${d!==null&&d<0?"red":d!==null&&d<=3?"amb":""}">${esc(q.valid)}</td><td class="num">${fm(q.value)}</td><td>${esc(q.code)}</td></tr>`};
  let h="";G.forEach((g,key)=>{if(gb!=="none"){const c=g.map(qOf).filter(Boolean),lt=c.length?c[0][0]:"",tp=["M","B","A","O"].map(l=>[l,g.filter(q=>qOf(q)[0]===l).length]).filter(x=>x[1]).map(x=>x.join(" ")).join(" · ");
-  h+=`<tr class="gh"><td colspan="11"><b>${gb==="route"?(RN[key[0]]||"Khác")+" · "+ml(key.slice(1)):ml(key)}</b> · ${g.length} báo giá${gb==="month"&&tp?" ("+tp+")":""} · Giá trị ${fmM(g.reduce((s,q)=>s+(+q.value||0),0))}</td></tr>`}
+  h+=`<tr class="gh"><td colspan="12"><b>${gb==="route"?(RN[key[0]]||"Khác")+" · "+ml(key.slice(1)):ml(key)}</b> · ${g.length} báo giá${gb==="month"&&tp?" ("+tp+")":""} · Giá trị ${fmM(g.reduce((s,q)=>s+(+q.value||0),0))}</td></tr>`}
   h+=g.map(row).join("")});
  $("lcount").textContent=`Hiển thị ${rows.length} / ${base.length} báo giá`;
- $("ltab").innerHTML=`<div class="card tw"><table><tr><th>Mã báo giá</th><th>Trạng thái</th><th>Công ty</th><th>Khách hàng</th><th>Điểm đến</th><th class="num">Pax</th><th>Nhận yêu cầu</th><th>Ngày đi → về</th><th>Hạn BG</th><th class="num">Giá trị (USD)</th><th>Mã booking</th></tr>${h||'<tr><td colspan="11" class="s">Không có báo giá nào khớp bộ lọc.</td></tr>'}</table></div>`;
+ $("ltab").innerHTML=`<div class="card tw"><table><tr><th>Mã báo giá</th><th>Trạng thái</th><th>Công ty</th><th>Sale</th><th>Khách hàng</th><th>Điểm đến</th><th class="num">Pax</th><th>Nhận yêu cầu</th><th>Ngày đi → về</th><th>Hạn BG</th><th class="num">Giá trị (USD)</th><th>Mã booking</th></tr>${h||'<tr><td colspan="12" class="s">Không có báo giá nào khớp bộ lọc.</td></tr>'}</table></div>`;
  document.querySelectorAll("tr.r").forEach(tr=>tr.onclick=()=>openForm(tr.dataset.id));
  document.querySelectorAll("select.st").forEach(sl=>sl.onchange=async()=>{const q=Q.find(x=>x.id===sl.dataset.sid);if(!q)return;const{id,...o}=q;o.status=sl.value;if(sl.value==="won"&&!o.won)o.won=today();o.updated=today();await put(id,o)})}
 function rep(){const P={day:"Ngày",week:"Tuần",month:"Tháng",quarter:"Quý",year:"Năm"},a=mine();
@@ -223,13 +298,13 @@ function rep(){const P={day:"Ngày",week:"Tuần",month:"Tháng",quarter:"Quý",
  $("rb").value=revBy;$("rb").onchange=()=>{revBy=$("rb").value;render()};
  const nw=a.filter(q=>q.status==="won"&&!q.won).length;if(nw&&revBy==="won")$("rep").querySelector(".grid").insertAdjacentHTML("beforebegin",`<div class="note">${nw} báo giá đã chốt chưa có <b>Ngày chốt</b>, web đang tạm dùng ngày đi để tính doanh thu. Mở từng báo giá để nhập ngày chốt cho chính xác.</div>`);
  document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{period=b.dataset.p;rep()})}
-function render(){dash();list();rep()}
+function render(){refreshSales();ISS=issues(mine());dash();list();rep();chkView();const n=ISS.filter(x=>x.sev!=="i").length;$("chkb").textContent=n||""}
 function msg(t){const m=$("msg");m.textContent=t;m.classList.toggle("hide",!t)}
 // form
 $("status").innerHTML=Object.entries(ST).filter(([k])=>k!=="sent").map(([k,v])=>`<option value="${k}">${v}</option>`).join("");
 $("status").addEventListener("change",()=>{if($("status").value==="won"&&!$("won").value)$("won").value=today()});
-const F=["qcode","pkg","agent","code","company","client","dest","pax","trip","ret","enq","sent","valid","status","value","profit","fu","why","won","note"];
-function openForm(id){editId=id||null;const q=Q.find(x=>x.id===id)||{status:"draft",enq:today()};
+const F=["sale","qcode","pkg","agent","code","company","client","dest","pax","trip","ret","enq","sent","valid","status","value","profit","fu","why","won","note"];
+function openForm(id){editId=id||null;const q=Q.find(x=>x.id===id)||{status:"draft",enq:today(),sale:defaultSale()};
  F.forEach(k=>$(k).value=q[k]??"");initCodes(q,id);if(!$("status").value)$("status").value="waiting";$("del").style.display=id?"":"none";T=loadTiers(q);drawPT();PR.forEach(([k])=>$('q'+k).value=q['q'+k]??'');fillSel(q.tier);calc();$("dlg").showModal()}
 const PR=[['Adult','Adult Tour Fare (Twin/Triple Sharing)'],['Single','Single Supplement'],['Cwb','Children With Bed'],['Cnb','Children No Bed']];
 const RT={Single:.75,Cwb:1,Cnb:.75};
@@ -298,17 +373,17 @@ $('company').addEventListener('input',()=>{const c=nameToCode[nz($('company').va
 $('code').addEventListener('input',()=>{$('code').dataset.m='1'});
 $("add").onclick=()=>openForm();$("cancel").onclick=()=>$("dlg").close();
 $("save").onclick=async()=>{const o={};F.forEach(k=>o[k]=$(k).value);
- ["qcode","pkg","agent","code"].forEach(k=>o[k]=String(o[k]||"").trim().toUpperCase());["pax","value","profit"].forEach(k=>o[k]=+o[k]||0);const ai=calc();PR.forEach(([k])=>{o['q'+k]=+$('q'+k).value||0;o['p'+k]=+(T[ai]&&T[ai].p[k])||0});o.tiers=T.map(t=>({n:t.n,min:+t.min||0,Adult:+t.p.Adult||0,Single:+t.p.Single||0,Cwb:+t.p.Cwb||0,Cnb:+t.p.Cnb||0}));o.tier=$('tsel').value;
+ ["qcode","pkg","agent","code"].forEach(k=>o[k]=String(o[k]||"").trim().toUpperCase());o.company=canonCo(o.company,o.agent);o.sale=canonSale(o.sale)||defaultSale();setDefaultSale(o.sale);["pax","value","profit"].forEach(k=>o[k]=+o[k]||0);const ai=calc();PR.forEach(([k])=>{o['q'+k]=+$('q'+k).value||0;o['p'+k]=+(T[ai]&&T[ai].p[k])||0});o.tiers=T.map(t=>({n:t.n,min:+t.min||0,Adult:+t.p.Adult||0,Single:+t.p.Single||0,Cwb:+t.p.Cwb||0,Cnb:+t.p.Cnb||0}));o.tier=$('tsel').value;
  const old=Q.find(x=>x.id===editId);o.owner=old?.owner||me||"local";o.created=old?.created||today();o.updated=today();
  await put(editId||("q"+Date.now().toString(36)+Math.random().toString(36).slice(2,5)),o);$("dlg").close()};
 $("del").onclick=async()=>{if(!confirm("Xóa báo giá này?"))return;try{col?await col.doc(editId).delete():0}catch(e){}Q=Q.filter(x=>x.id!==editId);$("dlg").close();render()};
 async function put(id,o){try{if(col)await col.doc(id).set(o)}catch(e){msg("Không lưu được: "+(e.message||e.code));return}
  const i=Q.findIndex(x=>x.id===id);const r={id,...o};i<0?Q.push(r):Q[i]=r;render()}
 // nav
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.body.dataset.tab=b.dataset.t;document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","list","rep"].forEach(s=>$(s).classList.toggle("hide",s!==b.dataset.t))});
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.body.dataset.tab=b.dataset.t;document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","list","rep","chk"].forEach(s=>$(s).classList.toggle("hide",s!==b.dataset.t))});
 // CSV
-const HD=["qcode","pkg","agent","code","company","client","dest","pax","trip","ret","enq","sent","valid","status","value","profit","fu","note"];
-const HV=["Mã báo giá","Mã chương trình","Mã đại lý","Mã booking","Công ty","Khách hàng","Điểm đến","Pax","Ngày đi","Ngày về","Ngày nhận yêu cầu","Ngày gửi","Hạn báo giá","Trạng thái","Giá trị","Lợi nhuận","Follow-up","Ghi chú"];
+const HD=["sale","qcode","pkg","agent","code","company","client","dest","pax","trip","ret","enq","sent","valid","status","value","profit","fu","note"];
+const HV=["Sale","Mã báo giá","Mã chương trình","Mã đại lý","Mã booking","Công ty","Khách hàng","Điểm đến","Pax","Ngày đi","Ngày về","Ngày nhận yêu cầu","Ngày gửi","Hạn báo giá","Trạng thái","Giá trị","Lợi nhuận","Follow-up","Ghi chú"];
 const TK=[['n','Tên'],['min','Min ADL'],['Adult','Adult'],['Single','Single'],['Cwb','Children With Bed'],['Cnb','Children No Bed']];
 const QK=[['qAdult','SL Adult'],['qSingle','SL Single'],['qCwb','SL Children With Bed'],['qCnb','SL Children No Bed']];
 for(let i=1;i<=8;i++)TK.forEach(([k,l])=>{HD.push('t'+i+'_'+k);HV.push('Mức '+i+' - '+l)});
@@ -331,7 +406,7 @@ $("file").onchange=async e=>{const f=e.target.files[0];if(!f)return;const rows=p
  const inv={};Object.entries(ST).forEach(([k,v])=>inv[norm(v)]=k);
  for(const r of rows){const o={};HD.forEach((k,i)=>o[k]=idx[i]>=0?(r[idx[i]]||"").trim():"");
   o.status=inv[norm(o.status)]||(ST[o.status]?o.status:"sent");["pax","value","profit"].forEach(k=>o[k]=+String(o[k]).replace(/[^\d.-]/g,"")||0);
-  buildTiers(o);tierCalc(o);{const dv=deriveCodes(o.code);["qcode","pkg","agent"].forEach(k=>{if(!o[k])o[k]=dv[k]||""})}o.owner=me||"local";o.created=today();o.updated=today();await put("i"+Date.now().toString(36)+n++,o)}
+  buildTiers(o);tierCalc(o);{const dv=deriveCodes(o.code);["qcode","pkg","agent"].forEach(k=>{if(!o[k])o[k]=dv[k]||""})}o.company=canonCo(o.company,o.agent);o.sale=canonSale(o.sale)||defaultSale();o.owner=me||"local";o.created=today();o.updated=today();await put("i"+Date.now().toString(36)+n++,o)}
  msg(`Đã import ${n} báo giá. Dùng nút Xuất CSV để xem file mẫu đầy đủ các cột.`);e.target.value=""};
 $("exp").onclick=async()=>{const esc2=v=>'"'+String(v??"").replace(/"/g,'""')+'"';
  const csv="\uFEFF"+[HV.join(","),...mine().map(q=>HD.map(k=>esc2(k==="status"?ST[q.status]:xv(q,k))).join(","))].join("\n");
@@ -370,8 +445,8 @@ function parseHotels(flat){
   cs.forEach((c,j)=>tiers.push({n:r[1]+'* '+nm+(cs.length>1||c.label?' - '+c.label:''),min:c.min,Adult:p[j],Single:sg,Cwb:0,Cnb:0}))}
  return tiers}
 function parseQuote(text,fname){
- const flat=text.replace(/\s+/g,' ').trim(),base=String(fname||'').replace(/\.pdf$/i,''),i=base.indexOf('_');
- const code=i>0?base.slice(0,i):'',fco=i>0?base.slice(i+1).replace(/_/g,' '):'';
+ const flat=text.replace(/\s+/g,' ').trim(),sn=splitName(fname);
+ let code=sn.code;const fco=sn.co;if(!code){const tm=/\b([MBAO]\d{6}(?:-[A-Z0-9]+){0,2})/.exec(flat);if(tm)code=tm[1]}
  const ry=/^[A-Z](\d{2})/.test(code)?2000+ +RegExp.$1:new Date().getFullYear();
  let tiers=parseFare(flat),fmt='fare';if(!tiers||!tiers.length){tiers=parseHotels(flat);fmt='hotel'}
  if(!tiers||!tiers.length)return{err:'Không tìm thấy bảng giá (Tour Fare Per Pax / Tour Fee)'};
@@ -383,7 +458,7 @@ function parseQuote(text,fname){
  let[trip,ret]=parseRange(fld(flat,'Quotation apply for')||((/\bDate\s*:\s*(.*?)(?=\(\d+D|Hotel Use|$)/i.exec(flat)||[])[1]),ry);
  const valid=parseDate(fld(flat,'Quotation validity')||(/Price Validity\s*:\s*([^.]*?\d{4})/i.exec(flat)||[])[1],ry);
  const gs=fld(flat,'Group size')||((/Group size\s*:\s*(.*?)(?=Date\s*:|$)/i.exec(flat)||[])[1]||'');
- return{code,company,client,dest,trip,ret,valid,tiers,fmt,note:'PDF: '+fname+(gs?' | Group size: '+gs.trim():'')}}
+ return{code,company,client,dest,trip,ret,valid,tiers,fmt,sale:fld(flat,'Confirm by \\(staff\\)'),note:'PDF: '+fname+(gs?' | Group size: '+gs.trim():'')}}
 
 async function pdfText(f){const L=window.pdfjsLib;if(!L)throw new Error('chưa tải được bộ đọc PDF');
  L.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -394,7 +469,7 @@ async function pdfText(f){const L=window.pdfjsLib;if(!L)throw new Error('chưa t
   ls.forEach(l=>{l.it.sort((a,b)=>a.x-b.x);t+=l.it.map(x=>x.s).join(' ')+'\n'});t+='\n'}
  return t}
 function mergeQuote(ex,r){const{id,...o}=ex;['company','client','dest','trip','ret','valid'].forEach(k=>{if(!o[k]&&r[k])o[k]=r[k]});
- {const dv=deriveCodes(r.code);['qcode','pkg','agent'].forEach(k=>{if(!o[k]&&dv[k])o[k]=dv[k]})}o.tiers=r.tiers;o.tier='auto';o.updated=today();if(o.status==='draft')o.status='sent';
+ {const dv=deriveCodes(r.code);['qcode','pkg','agent'].forEach(k=>{if(!o[k]&&dv[k])o[k]=dv[k]})}if(!o.sale&&r.sale)o.sale=r.sale;o.company=canonCo(o.company||r.company,o.agent);o.tiers=r.tiers;o.tier='auto';o.updated=today();if(o.status==='draft')o.status='sent';
  if(!String(o.note||'').includes(r.note))o.note=(o.note?o.note+' | ':'')+r.note;
  const q={Adult:o.qAdult||0,Single:o.qSingle||0,Cwb:o.qCwb||0,Cnb:o.qCnb||0};['Adult','Single','Cwb','Cnb'].forEach(k=>o['p'+k]=r.tiers[0][k]);
  return tierCalc(o)}
@@ -402,12 +477,12 @@ $('imppdf').onclick=()=>$('pdf').click();
 $('pdf').onchange=async e=>{const fs=[...e.target.files];if(!fs.length)return;let ok=0,upd=0;const bad=[];
  for(let i=0;i<fs.length;i++){msg('Đang đọc PDF '+(i+1)+'/'+fs.length+': '+fs[i].name+'…');
   try{const txt=await pdfText(fs[i]);if(txt.replace(/\s/g,'').length<80)throw new Error('PDF không có chữ, có thể là bản scan');
-   const r=parseQuote(txt,fs[i].name);if(r.err)throw new Error(r.err);
+   const r=parseQuote(txt,fs[i].name);if(r.err)throw new Error(r.err);r.company=canonCo(r.company,deriveCodes(r.code).agent);r.sale=canonSale(r.sale)||defaultSale();
    const up=r.code.toUpperCase(),pre=up.slice(0,7);
    let ex=up&&Q.find(x=>(x.code||'').toUpperCase()===up);
    if(!ex&&/^[A-Z]\d{6}$/.test(pre)){const c=Q.filter(x=>(x.code||'').toUpperCase().startsWith(pre)||(x.qcode||'').toUpperCase()===pre);if(c.length===1)ex=c[0]}
    if(ex){await put(ex.id,mergeQuote(ex,r));upd++}
-   else{const o={...deriveCodes(r.code),code:r.code,company:r.company,client:r.client,dest:r.dest,pax:0,trip:r.trip,ret:r.ret,enq:'',sent:'',valid:r.valid,status:'sent',value:0,profit:0,fu:'',why:'',note:r.note,tiers:r.tiers,tier:'auto',qAdult:0,qSingle:0,qCwb:0,qCnb:0,owner:me||'local',created:today(),updated:today()};
+   else{const o={...deriveCodes(r.code),code:r.code,company:r.company,sale:r.sale,client:r.client,dest:r.dest,pax:0,trip:r.trip,ret:r.ret,enq:'',sent:'',valid:r.valid,status:'sent',value:0,profit:0,fu:'',why:'',note:r.note,tiers:r.tiers,tier:'auto',qAdult:0,qSingle:0,qCwb:0,qCnb:0,owner:me||'local',created:today(),updated:today()};
     ['Adult','Single','Cwb','Cnb'].forEach(k=>o['p'+k]=r.tiers[0][k]);await put('p'+Date.now().toString(36)+i,o);ok++}}
   catch(err){bad.push(fs[i].name+' ('+(err.message||'lỗi')+')')}}
  msg('Đọc xong '+fs.length+' PDF: '+ok+' báo giá mới, '+upd+' báo giá cũ được bổ sung mức giá.'+(bad.length?' Không đọc được: '+bad.join('; '):' Hãy mở vài báo giá để kiểm tra lại.'));e.target.value=''};
